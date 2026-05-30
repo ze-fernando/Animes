@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
     <meta charset="utf-8" />
@@ -7,32 +7,25 @@
     <title>Animes</title>
     <base href="/" />
     <link rel="preload" id="webassembly" />
+
+    <!-- Fontes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&display=swap"
         rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4" defer></script>
+
+    <!-- Estilos: global primeiro, isolation depois -->
     <link rel="stylesheet" href="css/app.css" />
     <link rel="icon" type="image/png" href="favicon.png" />
-    <script type="importmap"></script>
-</head>
+    <link rel="stylesheet" href="Animes.styles.css" />
 
-<body>
-    <div id="app" class="loading-container">
-        <div class="loading-spinner">
-            <svg viewBox="0 0 100 100">
-                <circle class="spinner-bg" cx="50" cy="50" r="40" fill="none" />
-                <circle class="spinner-active" cx="50" cy="50" r="40" fill="none" />
-            </svg>
-        </div>
-        <div class="loading-text">Carregando<span class="dots"></span></div>
-    </div>
+    <script type="importmap"></script>
 
     <style>
-        .loading-container {
+        /* ── Loading screen ── */
+        .loading-screen {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
             background: #020509;
             display: flex;
             flex-direction: column;
@@ -40,6 +33,13 @@
             justify-content: center;
             gap: 1.5rem;
             z-index: 9999;
+            /* Fade out quando removida */
+            transition: opacity 0.3s ease;
+        }
+
+        .loading-screen.is-hiding {
+            opacity: 0;
+            pointer-events: none;
         }
 
         .loading-spinner {
@@ -57,7 +57,7 @@
         .loading-spinner svg {
             width: 100%;
             height: 100%;
-            animation: rotate 1.4s linear infinite;
+            animation: ls-rotate 1.4s linear infinite;
         }
 
         .spinner-bg {
@@ -71,17 +71,17 @@
             stroke-linecap: round;
             stroke-dasharray: 251.2;
             stroke-dashoffset: 188.4;
-            animation: dash 1.4s ease-in-out infinite;
+            animation: ls-dash 1.4s ease-in-out infinite;
             filter: drop-shadow(0 0 6px rgba(59, 130, 246, 0.5));
         }
 
-        @keyframes rotate {
+        @keyframes ls-rotate {
             100% {
                 transform: rotate(360deg);
             }
         }
 
-        @keyframes dash {
+        @keyframes ls-dash {
             0% {
                 stroke-dashoffset: 251.2;
             }
@@ -96,29 +96,22 @@
         }
 
         .loading-text {
-            font-family: 'Bebas Neue', system-ui, -apple-system, sans-serif;
+            font-family: 'Bebas Neue', system-ui, sans-serif;
             font-size: 0.875rem;
             letter-spacing: 3px;
             color: rgba(255, 255, 255, 0.5);
             text-transform: uppercase;
             display: flex;
             align-items: center;
-            gap: 0.25rem;
         }
 
-        .dots {
-            display: inline-flex;
-            width: 2rem;
-        }
-
-        .dots::after {
+        .loading-dots::after {
             content: '';
             display: inline-block;
-            width: 0;
-            animation: dots 1.5s steps(4, end) infinite;
+            animation: ls-dots 1.5s steps(4, end) infinite;
         }
 
-        @keyframes dots {
+        @keyframes ls-dots {
 
             0%,
             20% {
@@ -149,13 +142,68 @@
                 stroke-dashoffset: 62.8;
             }
 
-            .dots::after {
+            .loading-dots::after {
                 animation: none;
                 content: '...';
             }
         }
     </style>
+</head>
+
+<body>
+    <!-- #app: SOMENTE o wrapper — sem classes de loading aqui.
+         O loading screen é um elemento IRMÃO, removido via JS
+         após o Blazor montar. Isso evita que position:fixed
+         vaze para o app depois do bootstrap. -->
+    <div id="app"></div>
+
+    <!-- Loading screen separada do #app -->
+    <div id="loading-screen" class="loading-screen" aria-live="polite" aria-label="Carregando aplicação">
+        <div class="loading-spinner" aria-hidden="true">
+            <svg viewBox="0 0 100 100">
+                <circle class="spinner-bg" cx="50" cy="50" r="40" fill="none" />
+                <circle class="spinner-active" cx="50" cy="50" r="40" fill="none" />
+            </svg>
+        </div>
+        <div class="loading-text">
+            Carregando<span class="loading-dots" aria-hidden="true"></span>
+        </div>
+    </div>
+
     <script src="_framework/blazor.webassembly#[.{fingerprint}].js"></script>
+
+    <script>
+        // Remove a loading screen assim que o Blazor terminar de montar.
+        // Usa um MutationObserver no #app para detectar quando o conteúdo
+        // foi injetado — mais confiável do que setTimeout.
+        (function () {
+            var screen = document.getElementById('loading-screen');
+            if (!screen) return;
+
+            var app = document.getElementById('app');
+
+            var observer = new MutationObserver(function (mutations) {
+                // O Blazor injeta pelo menos um nó filho ao montar
+                if (app.children.length > 0) {
+                    observer.disconnect();
+
+                    // Fade out suave
+                    screen.classList.add('is-hiding');
+
+                    screen.addEventListener('transitionend', function () {
+                        screen.remove();
+                    }, { once: true });
+
+                    // Fallback caso transitionend não dispare
+                    setTimeout(function () {
+                        if (screen.parentNode) screen.remove();
+                    }, 500);
+                }
+            });
+
+            observer.observe(app, { childList: true });
+        })();
+    </script>
 </body>
 
 </html>

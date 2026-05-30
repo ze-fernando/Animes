@@ -1,79 +1,162 @@
+/* ═══════════════════════════════════════════════════
+   app.css  —  Reset global + tokens + animações
+═══════════════════════════════════════════════════ */
+
+/* ── Reset ─────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  touch-action: manipulation;
+  scroll-behavior: smooth;
+  /* Garante que a barra de scroll apareça sem bloquear o layout */
+  overflow-y: scroll;
+}
+
 body {
-    background-color: #020509;
-    font-family: 'Inter', sans-serif;
-    color: #E8E6F0;
-    min-height: 100vh;
+  background-color: #020509;
+  font-family: 'Inter', sans-serif;
+  color: #e8e6f0;
+  /* NÃO usar min-height: 100dvh aqui — deixa o conteúdo fluir livremente */
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-::-webkit-scrollbar {
-    width: 4px;
+/* Blazor WASM monta tudo dentro de #app e #blazor-error-ui.
+   Garantir que o wrapper não bloqueie o scroll. */
+#app,
+#blazor-error-ui {
+  display: block;
+  width: 100%;
 }
 
-::-webkit-scrollbar-track {
-    background: transparent;
+
+/* ── Design tokens ──────────────────────────────── */
+:root {
+  /* Cores */
+  --navy-950: #020509;
+  --navy-900: #040810;
+  --navy-800: #070f1c;
+  --navy-700: #0d1b2a;
+  --navy-600: #112238;
+
+  --blue-vivid: #3b82f6;
+  --blue-light: #60a5fa;
+  --blue-muted: #93c5fd;
+  --blue-dim: #1d4ed8;
+  --blue-deep: #1e3a8a;
+
+  /* Tipografia */
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-body: 'Inter', sans-serif;
+
+  /* Espaçamentos (base 8dp) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+
+  /* Raios */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-pill: 999px;
+
+  /* Sombras */
+  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.55);
+  --shadow-glow: 0 0 28px rgba(59, 130, 246, 0.2);
+  --shadow-glow-lg: 0 8px 48px rgba(29, 78, 216, 0.22);
+
+  /* Transições */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-fast: 150ms;
+  --duration-normal: 220ms;
+  --duration-slow: 350ms;
 }
 
-::-webkit-scrollbar-thumb {
-    background: rgba(59, 130, 246, 0.3);
-    border-radius: 2px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: rgba(59, 130, 246, 0.5);
-}
-
+/* ── Animações ──────────────────────────────────── */
 @keyframes fadeSlideUp {
-    from {
-        opacity: 0;
-        transform: translateY(28px);
-    }
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
 
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
+  from {
+    opacity: 0;
+  }
 
-    to {
-        opacity: 1;
-    }
+  to {
+    opacity: 1;
+  }
 }
 
-@keyframes modalIn {
-    from {
-        opacity: 0;
-        transform: scale(0.94) translateY(16px);
-    }
+@keyframes pulseGlow {
 
-    to {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-    }
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.35;
+  }
 }
 
-@keyframes shimmer {
-    0% {
-        background-position: -200% center;
-    }
-
-    100% {
-        background-position: 200% center;
-    }
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
+
+
+/* ── Classes de animação — GLOBAIS ───────────────────
+   Devem ficar aqui e não no .razor.css porque o CSS
+   isolation do Blazor escopa seletores de classe mas
+   NÃO escopa @keyframes — se as classes ficarem no
+   arquivo isolado, os keyframes do app.css não são
+   encontrados pelo scoped selector gerado.
+──────────────────────────────────────────────────── */
 .anim-fade-slide-up {
-    animation: fadeSlideUp 0.9s ease forwards;
+  animation: fadeSlideUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .anim-fade-in {
-    animation: fadeIn 0.5s ease forwards;
+  animation: fadeIn 0.4s ease both;
 }
 
-.anim-modal-in {
-    animation: modalIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+.anim-spin {
+  animation: spin 0.8s linear infinite;
+}
+
+/* ── Reduced motion ─────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
