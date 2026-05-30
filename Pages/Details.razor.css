@@ -1,9 +1,6 @@
-/* ═══════════════════════════════════════════════════
-   Details.razor.css  —  estilos isolados da página Details
-   (CSS Isolation do Blazor — escopo automático)
-═══════════════════════════════════════════════════ */
 
-/* ── LOADING ──────────────────────────────────────── */
+
+
 .loading {
   min-height: 100dvh;
   background: var(--navy-950);
@@ -25,7 +22,7 @@
   border-radius: 50%;
   border: 2px solid rgba(29, 78, 216, 0.3);
   border-top-color: var(--blue-vivid);
-  /* animation handled by .anim-spin in app.css */
+  
 }
 
 .loading__text {
@@ -36,15 +33,15 @@
 }
 
 
-/* ── WRAPPER ──────────────────────────────────────── */
+
 .page {
   min-height: 100dvh;
   background: var(--navy-950);
-  /* animation handled by .anim-fade-in in app.css */
+  
 }
 
 
-/* ── FUNDO COM CAPA ───────────────────────────────── */
+
 .page__backdrop {
   position: fixed;
   inset: 0;
@@ -98,7 +95,7 @@
 }
 
 
-/* ── NAV ──────────────────────────────────────────── */
+
 .nav {
   position: sticky;
   top: 0;
@@ -114,12 +111,12 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* Botão voltar */
+
 .nav__back {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
-  /* touch target mínimo 44×44px */
+  
   min-height: 44px;
   min-width: 44px;
   padding: 0 var(--space-2);
@@ -187,7 +184,7 @@
 }
 
 
-/* ── MAIN ─────────────────────────────────────────── */
+
 .main {
   position: relative;
   z-index: 10;
@@ -200,7 +197,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-10);
-  /* animation handled by .anim-fade-slide-up in app.css */
+  
 }
 
 @media (min-width: 1024px) {
@@ -216,7 +213,7 @@
 }
 
 
-/* ── CAPA ─────────────────────────────────────────── */
+
 .cover {
   flex-shrink: 0;
   display: flex;
@@ -235,7 +232,7 @@
 @media (min-width: 480px) { .cover__inner { width: 240px; } }
 @media (min-width: 1024px) { .cover__inner { width: 280px; } }
 
-/* Sombra suave sob a imagem */
+
 .cover__shadow {
   position: absolute;
   bottom: -20px;
@@ -277,7 +274,7 @@
   color: rgba(255, 255, 255, 0.05);
 }
 
-/* Brilho glass */
+
 .cover__shine {
   position: absolute;
   inset: 0;
@@ -287,7 +284,7 @@
 }
 
 
-/* ── INFORMAÇÕES ──────────────────────────────────── */
+
 .info {
   flex: 1;
   min-width: 0;
@@ -296,7 +293,7 @@
   gap: var(--space-6);
 }
 
-/* Cabeçalho com título */
+
 .info__header {}
 
 .info__title {
@@ -315,7 +312,7 @@
   background: linear-gradient(to right, var(--blue-vivid), transparent);
 }
 
-/* Card de descrição com glass */
+
 .info__description-card {
   background: rgba(13, 27, 42, 0.55);
   backdrop-filter: blur(16px);
@@ -336,7 +333,7 @@
   .info__description-text { font-size: 15px; }
 }
 
-/* Botão voltar secundário */
+
 .info__back-btn {
   display: inline-flex;
   align-items: center;
@@ -380,3 +377,4 @@
 .info__back-btn:hover svg {
   transform: translateX(-2px);
 }
+

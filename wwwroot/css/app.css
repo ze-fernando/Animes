@@ -1,8 +1,3 @@
-/* ═══════════════════════════════════════════════════
-   app.css  —  Reset global + tokens + animações
-═══════════════════════════════════════════════════ */
-
-/* ── Reset ─────────────────────────────────────── */
 *,
 *::before,
 *::after {
@@ -14,7 +9,7 @@
 html {
   touch-action: manipulation;
   scroll-behavior: smooth;
-  /* Garante que a barra de scroll apareça sem bloquear o layout */
+
   overflow-y: scroll;
 }
 
@@ -22,14 +17,13 @@ body {
   background-color: #020509;
   font-family: 'Inter', sans-serif;
   color: #e8e6f0;
-  /* NÃO usar min-height: 100dvh aqui — deixa o conteúdo fluir livremente */
+
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Blazor WASM monta tudo dentro de #app e #blazor-error-ui.
-   Garantir que o wrapper não bloqueie o scroll. */
+
 #app,
 #blazor-error-ui {
   display: block;
@@ -37,9 +31,8 @@ body {
 }
 
 
-/* ── Design tokens ──────────────────────────────── */
 :root {
-  /* Cores */
+
   --navy-950: #020509;
   --navy-900: #040810;
   --navy-800: #070f1c;
@@ -52,11 +45,11 @@ body {
   --blue-dim: #1d4ed8;
   --blue-deep: #1e3a8a;
 
-  /* Tipografia */
+
   --font-display: 'Bebas Neue', sans-serif;
   --font-body: 'Inter', sans-serif;
 
-  /* Espaçamentos (base 8dp) */
+
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
@@ -69,25 +62,25 @@ body {
   --space-16: 64px;
   --space-20: 80px;
 
-  /* Raios */
+
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
   --radius-pill: 999px;
 
-  /* Sombras */
+
   --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.55);
   --shadow-glow: 0 0 28px rgba(59, 130, 246, 0.2);
   --shadow-glow-lg: 0 8px 48px rgba(29, 78, 216, 0.22);
 
-  /* Transições */
+
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --duration-fast: 150ms;
   --duration-normal: 220ms;
   --duration-slow: 350ms;
 }
 
-/* ── Animações ──────────────────────────────────── */
+
 @keyframes fadeSlideUp {
   from {
     opacity: 0;
@@ -130,13 +123,7 @@ body {
 
 
 
-/* ── Classes de animação — GLOBAIS ───────────────────
-   Devem ficar aqui e não no .razor.css porque o CSS
-   isolation do Blazor escopa seletores de classe mas
-   NÃO escopa @keyframes — se as classes ficarem no
-   arquivo isolado, os keyframes do app.css não são
-   encontrados pelo scoped selector gerado.
-──────────────────────────────────────────────────── */
+
 .anim-fade-slide-up {
   animation: fadeSlideUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
@@ -149,7 +136,7 @@ body {
   animation: spin 0.8s linear infinite;
 }
 
-/* ── Reduced motion ─────────────────────────────── */
+
 @media (prefers-reduced-motion: reduce) {
 
   *,

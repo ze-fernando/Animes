@@ -16,7 +16,7 @@ else
 {
     <div class="page anim-fade-in">
 
-        <!-- FUNDO COM CAPA EM BLUR -->
+        
         <div class="page__backdrop" aria-hidden="true">
             @if (!string.IsNullOrEmpty(anime.ImageUrl))
             {
@@ -28,7 +28,7 @@ else
             <div class="page__backdrop-orb page__backdrop-orb--bl"></div>
         </div>
 
-        <!-- NAV -->
+        
         <nav class="nav">
             <button class="nav__back"
                     @onclick="GoBack"
@@ -49,11 +49,11 @@ else
             <div class="nav__spacer" aria-hidden="true"></div>
         </nav>
 
-        <!-- CONTEÚDO PRINCIPAL -->
+        
         <main class="main">
             <article class="article anim-fade-slide-up" aria-label="Detalhes de @anime.Title">
 
-                <!-- CAPA -->
+                
                 <aside class="cover">
                     <div class="cover__inner">
                         <div class="cover__shadow" aria-hidden="true"></div>
@@ -79,7 +79,7 @@ else
                     </div>
                 </aside>
 
-                <!-- INFORMAÇÕES -->
+                
                 <div class="info">
 
                     <header class="info__header">
@@ -129,3 +129,4 @@ else
 
     private void GoBack() => Nav.NavigateTo("/");
 }
+

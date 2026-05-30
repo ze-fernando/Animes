@@ -5,16 +5,16 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Animes</title>
-    <base href="/" />
+    <base href="https://github.com/ze-fernando/Animes/" />
     <link rel="preload" id="webassembly" />
 
-    <!-- Fontes -->
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&display=swap"
         rel="stylesheet" />
 
-    <!-- Estilos: global primeiro, isolation depois -->
+
     <link rel="stylesheet" href="css/app.css" />
     <link rel="icon" type="image/png" href="favicon.png" />
     <link rel="stylesheet" href="Animes.styles.css" />
@@ -22,7 +22,6 @@
     <script type="importmap"></script>
 
     <style>
-        /* ── Loading screen ── */
         .loading-screen {
             position: fixed;
             inset: 0;
@@ -33,7 +32,7 @@
             justify-content: center;
             gap: 1.5rem;
             z-index: 9999;
-            /* Fade out quando removida */
+
             transition: opacity 0.3s ease;
         }
 
@@ -151,13 +150,10 @@
 </head>
 
 <body>
-    <!-- #app: SOMENTE o wrapper — sem classes de loading aqui.
-         O loading screen é um elemento IRMÃO, removido via JS
-         após o Blazor montar. Isso evita que position:fixed
-         vaze para o app depois do bootstrap. -->
+
     <div id="app"></div>
 
-    <!-- Loading screen separada do #app -->
+
     <div id="loading-screen" class="loading-screen" aria-live="polite" aria-label="Carregando aplicação">
         <div class="loading-spinner" aria-hidden="true">
             <svg viewBox="0 0 100 100">
@@ -173,9 +169,9 @@
     <script src="_framework/blazor.webassembly#[.{fingerprint}].js"></script>
 
     <script>
-        // Remove a loading screen assim que o Blazor terminar de montar.
-        // Usa um MutationObserver no #app para detectar quando o conteúdo
-        // foi injetado — mais confiável do que setTimeout.
+
+
+
         (function () {
             var screen = document.getElementById('loading-screen');
             if (!screen) return;
@@ -183,18 +179,16 @@
             var app = document.getElementById('app');
 
             var observer = new MutationObserver(function (mutations) {
-                // O Blazor injeta pelo menos um nó filho ao montar
+
                 if (app.children.length > 0) {
                     observer.disconnect();
 
-                    // Fade out suave
                     screen.classList.add('is-hiding');
 
                     screen.addEventListener('transitionend', function () {
                         screen.remove();
                     }, { once: true });
 
-                    // Fallback caso transitionend não dispare
                     setTimeout(function () {
                         if (screen.parentNode) screen.remove();
                     }, 500);

@@ -1,9 +1,6 @@
-/* ═══════════════════════════════════════════════════
-   Home.razor.css  —  estilos isolados da página Home
-   (CSS Isolation do Blazor — escopo automático)
-═══════════════════════════════════════════════════ */
 
-/* ── NAV ──────────────────────────────────────────── */
+
+
 .nav {
   position: sticky;
   top: 0;
@@ -59,7 +56,7 @@
 }
 
 
-/* ── HERO ─────────────────────────────────────────── */
+
 .hero {
   position: relative;
   display: flex;
@@ -136,7 +133,7 @@
   z-index: 10;
   padding: 0 var(--space-16) var(--space-20) var(--space-16);
   max-width: 680px;
-  /* animation handled by .anim-fade-slide-up class in app.css */
+  
 }
 
 .hero__badge {
@@ -237,7 +234,7 @@
   background: rgba(59, 130, 246, 0.4);
 }
 
-/* Ribbon pódio */
+
 .hero__ribbon {
   position: absolute;
   bottom: 0;
@@ -273,7 +270,7 @@
 }
 
 
-/* ── CATÁLOGO ─────────────────────────────────────── */
+
 .catalog {
   padding: var(--space-10) var(--space-10) var(--space-20);
   background: var(--navy-950);
@@ -314,7 +311,7 @@
   color: rgba(255, 255, 255, 0.25);
 }
 
-/* Grid */
+
 .catalog__grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -332,7 +329,7 @@
 }
 
 
-/* ── CARD ─────────────────────────────────────────── */
+
 .card {
   position: relative;
   display: flex;
@@ -345,7 +342,7 @@
   border: 1px solid rgba(255, 255, 255, 0.06);
   cursor: pointer;
   opacity: 0;
-  /* animation handled by .anim-fade-in class in app.css */
+  
   transition:
     border-color var(--duration-normal) ease,
     box-shadow   var(--duration-normal) ease,
@@ -367,7 +364,7 @@
   transform: translateY(-2px) scale(0.99);
 }
 
-/* Poster */
+
 .card__poster {
   position: relative;
   width: 100%;
@@ -401,7 +398,7 @@
   color: rgba(255, 255, 255, 0.05);
 }
 
-/* Índice numérico */
+
 .card__index {
   position: absolute;
   top: 8px;
@@ -418,7 +415,7 @@
   -webkit-backdrop-filter: blur(6px);
 }
 
-/* Overlay hover */
+
 .card__overlay {
   position: absolute;
   inset: 0;
@@ -458,7 +455,7 @@
   color: var(--blue-light);
 }
 
-/* Brilho glass */
+
 .card__shine {
   position: absolute;
   inset: 0;
@@ -468,7 +465,7 @@
   pointer-events: none;
 }
 
-/* Info */
+
 .card__info {
   padding: 10px var(--space-3) var(--space-3);
 }
@@ -491,7 +488,7 @@
 }
 
 
-/* ── ESTADO VAZIO ─────────────────────────────────── */
+
 .empty-state {
   min-height: 100dvh;
   background: var(--navy-950);
@@ -508,7 +505,7 @@
   border-radius: 50%;
   border: 2px solid rgba(29, 78, 216, 0.3);
   border-top-color: var(--blue-vivid);
-  /* animation handled by .anim-spin class in app.css */
+  
 }
 
 .empty-state__text {
@@ -517,3 +514,4 @@
   letter-spacing: 4px;
   color: rgba(255, 255, 255, 0.2);
 }
+

@@ -9,7 +9,7 @@
     var top = animeList[0];
     var rest = animeList.Skip(1).ToList();
 
-    <!-- NAV -->
+    
     <nav class="nav">
         <span class="nav__logo">ANIME<span>.</span></span>
         <div class="nav__status">
@@ -18,7 +18,7 @@
         </div>
     </nav>
 
-    <!-- HERO — índice 1 -->
+    
     <section class="hero" aria-label="Anime em destaque: @top.Title">
 
         @if (!string.IsNullOrEmpty(top.ImageUrl))
@@ -66,7 +66,7 @@
         </div>
     </section>
 
-    <!-- CATÁLOGO — índices 2 em diante -->
+    
     <section class="catalog" aria-label="Catálogo de animes">
 
         <div class="catalog__header">
@@ -138,3 +138,4 @@ else
 
     private void GoTo(int id) => Nav.NavigateTo($"/Details/{id}");
 }
+
