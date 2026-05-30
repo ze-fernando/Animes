@@ -1,0 +1,120 @@
+@page "/"
+@inject NavigationManager Nav
+
+<PageTitle>Home | Animes</PageTitle>
+
+@if (animeList is not null && animeList.Count > 0)
+{
+    var top = animeList[0];
+    var rest = animeList.Skip(1).ToList();
+
+    <nav
+        class="sticky top-0 z-50 px-6 md:px-12 py-4 flex items-center justify-between bg-[#040810]/80 backdrop-blur-xl border-b border-white/5">
+        <span class="font-['Bebas_Neue'] text-2xl tracking-[5px] text-white/90 select-none">
+            ANIME<span class="text-[#3B82F6]">.</span>
+        </span>
+        <span class="hidden sm:block text-[11px] tracking-[2px] text-white/25 uppercase">Top Rated</span>
+    </nav>
+
+    <section class="relative w-full h-[90vh] min-h-[540px] overflow-hidden flex flex-col justify-end bg-[#020509]">
+        @if (!string.IsNullOrEmpty(top.ImageUrl))
+        {
+            <img src="@top.ImageUrl" alt="" class="absolute inset-0 w-full h-full object-cover opacity-40" />
+        }
+        else
+        {
+            <div class="absolute inset-0 bg-gradient-to-br from-[#0a1628] via-[#030d1f] to-[#000508]"></div>
+        }
+
+        <div class="absolute inset-0 bg-gradient-to-t from-[#020509] via-[#020509]/70 to-transparent"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-[#020509]/80 via-transparent to-transparent"></div>
+
+        <div class="relative z-10 px-6 md:px-16 pb-16 md:pb-24 max-w-3xl">
+            <div class="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full bg-[#1E3A8A]/40 border border-white/10">
+                <span class="text-sm leading-none">👑</span>
+                <span class="font-['Bebas_Neue'] text-[12px] tracking-[3px] text-white/80">TOP RATED</span>
+            </div>
+            <h1 class="font-['Bebas_Neue'] text-[clamp(48px,8vw,96px)] leading-[0.9] tracking-wide text-white mb-5">
+                @top.Title
+            </h1>
+            <p class="text-[15px] leading-7 text-white/70 font-light max-w-[500px] line-clamp-3 mb-8">
+                @top.Description
+            </p>
+            <button @onclick="() => GoToDetails(top.Id)" aria-label="View details for @top.Title"
+                    class="group inline-flex items-center gap-3 px-7 py-3.5 rounded-full bg-[#1D4ED8]/40 border border-white/20 text-white font-['Inter'] font-medium text-[14px] backdrop-blur-sm hover:bg-[#1D4ED8]/60 transition-all duration-300 active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#3B82F6] focus:ring-offset-2 focus:ring-offset-[#020509]">
+                <span
+                class="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center text-xs group-hover:bg-white/20 transition-colors">▶</span>
+                Ver detalhes
+            </button>
+        </div>
+    </section>
+
+    <section class="px-6 md:px-12 pt-12 pb-20 bg-[#020509]">
+        <div class="flex items-center gap-4 mb-8">
+            <div class="w-1 h-6 rounded-full bg-[#3B82F6]"></div>
+            <span class="font-['Bebas_Neue'] text-xl tracking-[3px] text-white/80">Catálogo</span>
+            <div class="flex-1 h-px bg-gradient-to-r from-white/10 to-transparent"></div>
+            <span class="text-[11px] tracking-[2px] text-white/30 uppercase">@rest.Count títulos</span>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 md:gap-5">
+            @for (int i = 0; i < rest.Count; i++)
+            {
+                var anime = rest[i];
+                var idx = (i + 2).ToString("D2");
+                var localId = anime.Id;
+
+                <button @onclick="() => GoToDetails(localId)" aria-label="View details for @anime.Title"
+                        class="group relative text-left rounded-xl overflow-hidden bg-gradient-to-b from-[#0D1B2A] to-[#080F1A] border border-white/5 hover:border-white/20 transition-all duration-300 hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-[#3B82F6] focus:ring-offset-2 focus:ring-offset-[#020509]">
+                    <div class="relative w-full aspect-[2/3] overflow-hidden bg-gradient-to-br from-[#0d1e38] to-[#060d1a]">
+                        @if (!string.IsNullOrEmpty(anime.ImageUrl))
+                        {
+                            <img src="@anime.ImageUrl" alt="@anime.Title" loading="lazy"
+                                 class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                        }
+                        else
+                        {
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <span class="font-['Bebas_Neue'] text-5xl text-white/10 tracking-[4px]">AN</span>
+                            </div>
+                        }
+                        <span
+                        class="absolute top-2 left-2 z-10 font-['Bebas_Neue'] text-[11px] tracking-[1px] text-white/50 bg-black/50 px-2 py-0.5 rounded backdrop-blur-sm">@idx</span>
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-[#020509] via-[#020509]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3">
+                            <p class="text-[10px] leading-relaxed text-white/80 line-clamp-3">@anime.Description</p>
+                            <span class="mt-2 font-['Bebas_Neue'] text-[11px] tracking-[2px] text-white/70">Ver detalhes
+                                →</span>
+                            </div>
+                        </div>
+                        <div class="px-3 py-2.5">
+                            <p
+                                class="font-['Inter'] font-medium text-[12px] text-white/80 leading-snug line-clamp-2 group-hover:text-white transition-colors">
+                                @anime.Title
+                            </p>
+                        </div>
+                    </button>
+                }
+            </div>
+        </section>
+    }
+else
+    {
+        <div class="min-h-screen bg-[#020509] flex flex-col items-center justify-center gap-4">
+            <div class="w-16 h-16 rounded-full border border-white/10 flex items-center justify-center">
+                <span class="text-2xl text-white/20">⚡</span>
+            </div>
+            <span class="font-['Bebas_Neue'] text-xl tracking-[4px] text-white/20">Nenhum anime encontrado.</span>
+        </div>
+    }
+
+@code {
+    private List<Anime> animeList { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        animeList = await Data.GetAnimes();
+    }
+
+    private void GoToDetails(int id) => Nav.NavigateTo($"/Details/{id}");
+}

@@ -1,4 +1,25 @@
 ﻿@page "/not-found"
+@inject NavigationManager Nav
 
-<h3>Not Found</h3>
-<p>Sorry, the content you are looking for does not exist.</p>
+<PageTitle>Página não encontrada | Animes</PageTitle>
+
+<div class="min-h-screen bg-[#020509] flex flex-col items-center justify-center px-6">
+    <div class="text-center max-w-md">
+        <div class="w-24 h-24 mx-auto mb-8 rounded-md border border-white/10 flex items-center justify-center">
+            <span class="text-5xl opacity-30">?</span>
+        </div>
+        <h1 class="font-['Bebas_Neue'] text-7xl tracking-[6px] text-white/80 mb-4">404</h1>
+        <p class="font-['Inter'] text-[15px] leading-7 text-white/50 font-light mb-8">
+            O conteúdo que você procura não existe.
+        </p>
+        <button @onclick="GoHome" aria-label="Voltar para página inicial"
+                class="inline-flex items-center gap-3 px-6 py-3 rounded-md bg-[#1D4ED8]/15 border border-[#3B82F6]/25 text-[#93C5FD] font-['Inter'] text-[13px] hover:bg-[#1D4ED8]/35 hover:border-[#60A5FA]/50 transition-all duration-300 active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#3B82F6] focus:ring-offset-2 focus:ring-offset-[#020509]">
+            <span class="text-xs group-hover:-translate-x-1 transition-transform">←</span>
+            Voltar para o início
+        </button>
+    </div>
+</div>
+
+@code {
+    private void GoHome() => Nav.NavigateTo("/");
+}
