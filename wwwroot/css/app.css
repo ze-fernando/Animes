@@ -1,0 +1,149 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    touch-action: manipulation;
+    scroll-behavior: smooth;
+
+    overflow-y: scroll;
+}
+
+body {
+    background-color: #020509;
+    font-family: 'Inter', sans-serif;
+    color: #e8e6f0;
+
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+
+#app,
+#blazor-error-ui {
+    display: block;
+    width: 100%;
+}
+
+
+:root {
+
+    --navy-950: #020509;
+    --navy-900: #040810;
+    --navy-800: #070f1c;
+    --navy-700: #0d1b2a;
+    --navy-600: #112238;
+
+    --blue-vivid: #3b82f6;
+    --blue-light: #60a5fa;
+    --blue-muted: #93c5fd;
+    --blue-dim: #1d4ed8;
+    --blue-deep: #1e3a8a;
+
+
+    --font-display: 'Bebas Neue', sans-serif;
+    --font-body: 'Inter', sans-serif;
+
+
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 20px;
+    --space-6: 24px;
+    --space-8: 32px;
+    --space-10: 40px;
+    --space-12: 48px;
+    --space-16: 64px;
+    --space-20: 80px;
+
+
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-pill: 999px;
+
+
+    --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.55);
+    --shadow-glow: 0 0 28px rgba(59, 130, 246, 0.2);
+    --shadow-glow-lg: 0 8px 48px rgba(29, 78, 216, 0.22);
+
+
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    --duration-fast: 150ms;
+    --duration-normal: 220ms;
+    --duration-slow: 350ms;
+}
+
+
+@keyframes fadeSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes pulseGlow {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.35;
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+
+
+.anim-fade-slide-up {
+    animation: fadeSlideUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.anim-fade-in {
+    animation: fadeIn 0.4s ease both;
+}
+
+.anim-spin {
+    animation: spin 0.8s linear infinite;
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

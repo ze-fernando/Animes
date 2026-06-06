@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Animes</title>
+    <link rel="preload" id="webassembly" />
+    <base href="https://ze-fernando.github.io/Animes/" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet" />
+
+    <link rel="stylesheet" href="css/app.css" />
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <link rel="stylesheet" href="Animes.styles.css" />
+
+    <link href="manifest.webmanifest" rel="manifest" />
+    <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png" />
+    <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png" />
+
+    <script type="importmap"></script>
+
+    <style>
+        .loading-screen {
+            position: fixed;
+            inset: 0;
+            background: #020509;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            z-index: 9999;
+            transition: opacity 0.3s ease;
+        }
+
+        .loading-screen.is-hiding {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loading-spinner {
+            width: 64px;
+            height: 64px;
+        }
+
+        @media (min-width: 768px) {
+            .loading-spinner {
+                width: 80px;
+                height: 80px;
+            }
+        }
+
+        .loading-spinner svg {
+            width: 100%;
+            height: 100%;
+            animation: ls-rotate 1.4s linear infinite;
+        }
+
+        .spinner-bg {
+            stroke: rgba(59, 130, 246, 0.1);
+            stroke-width: 4;
+        }
+
+        .spinner-active {
+            stroke: #3B82F6;
+            stroke-width: 4;
+            stroke-linecap: round;
+            stroke-dasharray: 251.2;
+            stroke-dashoffset: 188.4;
+            animation: ls-dash 1.4s ease-in-out infinite;
+            filter: drop-shadow(0 0 6px rgba(59, 130, 246, 0.5));
+        }
+
+        @keyframes ls-rotate {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes ls-dash {
+            0% {
+                stroke-dashoffset: 251.2;
+            }
+
+            50% {
+                stroke-dashoffset: 62.8;
+            }
+
+            100% {
+                stroke-dashoffset: 251.2;
+            }
+        }
+
+        .loading-text {
+            font-family: 'Bebas Neue', system-ui, sans-serif;
+            font-size: 0.875rem;
+            letter-spacing: 3px;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+        }
+
+        .loading-dots::after {
+            content: '';
+            display: inline-block;
+            animation: ls-dots 1.5s steps(4, end) infinite;
+        }
+
+        @keyframes ls-dots {
+
+            0%,
+            20% {
+                content: '';
+            }
+
+            40% {
+                content: '.';
+            }
+
+            60% {
+                content: '..';
+            }
+
+            80%,
+            100% {
+                content: '...';
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .loading-spinner svg {
+                animation: none;
+            }
+
+            .spinner-active {
+                animation: none;
+                stroke-dashoffset: 62.8;
+            }
+
+            .loading-dots::after {
+                animation: none;
+                content: '...';
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="app"></div>
+
+    <div id="loading-screen" class="loading-screen" aria-live="polite" aria-label="Carregando aplicação">
+        <div class="loading-spinner" aria-hidden="true">
+            <svg viewBox="0 0 100 100">
+                <circle class="spinner-bg" cx="50" cy="50" r="40" fill="none" />
+                <circle class="spinner-active" cx="50" cy="50" r="40" fill="none" />
+            </svg>
+        </div>
+        <div class="loading-text">
+            Carregando<span class="loading-dots" aria-hidden="true"></span>
+        </div>
+    </div>
+
+    <script src="_framework/blazor.webassembly#[.{fingerprint}].js"></script>
+
+    <script>navigator.serviceWorker.register('service-worker.js', { updateViaCache: 'none' });</script>
+
+    <script>
+        (function () {
+            var screen = document.getElementById('loading-screen');
+            if (!screen) return;
+
+            var app = document.getElementById('app');
+
+            var observer = new MutationObserver(function (mutations) {
+                if (app.children.length > 0) {
+                    observer.disconnect();
+
+                    screen.classList.add('is-hiding');
+
+                    screen.addEventListener('transitionend', function () {
+                        screen.remove();
+                    }, { once: true });
+
+                    setTimeout(function () {
+                        if (screen.parentNode) screen.remove();
+                    }, 500);
+                }
+            });
+
+            observer.observe(app, { childList: true });
+        })();
+    </script>
+
+</body>
+
+</html>

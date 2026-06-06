@@ -1,0 +1,141 @@
+@page "/"
+@using System.Linq
+@inject NavigationManager Nav
+
+<PageTitle>Home | Animes</PageTitle>
+
+@if (animeList is not null && animeList.Count > 0)
+{
+    var top = animeList[0];
+    var rest = animeList.Skip(1).ToList();
+
+    
+    <nav class="nav">
+        <span class="nav__logo">ANIME<span>.</span></span>
+        <div class="nav__status">
+            <span class="nav__label">Top Rated</span>
+            <span class="nav__dot" aria-hidden="true"></span>
+        </div>
+    </nav>
+
+    
+    <section class="hero" aria-label="Anime em destaque: @top.Title">
+
+        @if (!string.IsNullOrEmpty(top.ImageUrl))
+        {
+            <img class="hero__bg-image" src="@top.ImageUrl" alt="" aria-hidden="true" loading="eager" />
+        }
+
+        <div class="hero__gradient-v" aria-hidden="true"></div>
+        <div class="hero__gradient-h" aria-hidden="true"></div>
+        <div class="hero__orb hero__orb--top-right" aria-hidden="true"></div>
+        <div class="hero__orb hero__orb--bottom-left" aria-hidden="true"></div>
+
+        <div class="hero__content anim-fade-slide-up">
+
+            <div class="hero__badge">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                     class="bi bi-trophy-fill hero__badge-icon" viewBox="0 0 16 16">
+                    <path
+                    d="M2.5.5A.5.5 0 0 1 3 0h10a.5.5 0 0 1 .5.5q0 .807-.034 1.536a3 3 0 1 1-1.133 5.89c-.79 1.865-1.878 2.777-2.833 3.011v2.173l1.425.356c.194.048.377.135.537.255L13.3 15.1a.5.5 0 0 1-.3.9H3a.5.5 0 0 1-.3-.9l1.838-1.379c.16-.12.343-.207.537-.255L6.5 13.11v-2.173c-.955-.234-2.043-1.146-2.833-3.012a3 3 0 1 1-1.132-5.89A33 33 0 0 1 2.5.5m.099 2.54a2 2 0 0 0 .72 3.935c-.333-1.05-.588-2.346-.72-3.935m10.083 3.935a2 2 0 0 0 .72-3.935c-.133 1.59-.388 2.885-.72 3.935" />
+                </svg>
+                <span class="hero__badge-text">Anime Favorito · Pódio Top 1</span>
+            </div>
+
+            <h1 class="hero__title">@top.Title</h1>
+
+            <p class="hero__description">@top.Description</p>
+
+            <button class="hero__cta" @onclick="() => GoTo(top.Id)" aria-label="Ver detalhes de @top.Title">
+                <span class="hero__cta-icon" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-trophy-fill hero__badge-icon" viewBox="0 0 16 16">
+                        <path
+                        d="M2.5.5A.5.5 0 0 1 3 0h10a.5.5 0 0 1 .5.5q0 .807-.034 1.536a3 3 0 1 1-1.133 5.89c-.79 1.865-1.878 2.777-2.833 3.011v2.173l1.425.356c.194.048.377.135.537.255L13.3 15.1a.5.5 0 0 1-.3.9H3a.5.5 0 0 1-.3-.9l1.838-1.379c.16-.12.343-.207.537-.255L6.5 13.11v-2.173c-.955-.234-2.043-1.146-2.833-3.012a3 3 0 1 1-1.132-5.89A33 33 0 0 1 2.5.5m.099 2.54a2 2 0 0 0 .72 3.935c-.333-1.05-.588-2.346-.72-3.935m10.083 3.935a2 2 0 0 0 .72-3.935c-.133 1.59-.388 2.885-.72 3.935" />
+                    </svg>
+                </span>
+                Ver detalhes
+            </button>
+        </div>
+
+        <div class="hero__ribbon" aria-hidden="true">
+            <svg class="hero__ribbon-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M5 3h14l-3 7H8L5 3zM12 22l-7-9h14l-7 9z" />
+            </svg>
+            PÓDIO TOP 1
+        </div>
+    </section>
+
+    
+    <section class="catalog" aria-label="Catálogo de animes">
+
+        <div class="catalog__header">
+            <div class="catalog__header-bar" aria-hidden="true"></div>
+            <h2 class="catalog__header-title">Catálogo</h2>
+            <div class="catalog__header-line" aria-hidden="true"></div>
+            <span class="catalog__header-count" aria-label="@rest.Count títulos no catálogo">
+                @rest.Count títulos
+            </span>
+        </div>
+
+        <ul class="catalog__grid" role="list">
+            @for (int i = 0; i < rest.Count; i++)
+            {
+                var anime = rest[i];
+                var idx = (i + 2).ToString("D2");
+                var localId = anime.Id;
+                var delay = Math.Min(i * 55, 700);
+
+                <li role="listitem">
+                    <button class="card anim-fade-in" @onclick="() => GoTo(localId)" style="animation-delay: @(delay)ms"
+                            aria-label="Ver detalhes de @anime.Title">
+
+                        <div class="card__poster">
+                            @if (!string.IsNullOrEmpty(anime.ImageUrl))
+                            {
+                                <img class="card__poster-image" src="@anime.ImageUrl" alt="@anime.Title" loading="lazy" />
+                            }
+                            else
+                            {
+                                <div class="card__poster-placeholder" aria-hidden="true">AN</div>
+                            }
+
+                            <span class="card__index" aria-hidden="true">@idx</span>
+
+                            <div class="card__overlay" aria-hidden="true">
+                                <p class="card__overlay-desc">@anime.Description</p>
+                                <span class="card__overlay-cta">Ver detalhes →</span>
+                            </div>
+
+                            <div class="card__shine" aria-hidden="true"></div>
+                        </div>
+
+                        <div class="card__info">
+                            <p class="card__title">@anime.Title</p>
+                        </div>
+                    </button>
+                </li>
+            }
+        </ul>
+    </section>
+}
+else
+{
+    <div class="empty-state" role="status">
+        <div class="empty-state__spinner anim-spin" aria-hidden="true"></div>
+        <span class="empty-state__text">Nenhum anime encontrado.</span>
+    </div>
+}
+
+
+@code {
+    private List<Anime> animeList { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        animeList = await Data.GetAnimes();
+    }
+
+    private void GoTo(int id) => Nav.NavigateTo($"/Animes/Details/{id}");
+}
+

@@ -1,0 +1,22 @@
+﻿@page "/not-found"
+@inject NavigationManager Nav
+<PageTitle>Página não encontrada | Animes</PageTitle>
+
+<div class="not-found">
+    <div class="not-found__inner">
+        <div class="not-found__icon" aria-hidden="true">?</div>
+        <div class="not-found__code" aria-label="Erro 404">404</div>
+        <h1 class="not-found__title">Página não encontrada</h1>
+        <p class="not-found__description">
+            O conteúdo que você procura não existe ou foi removido.
+        </p>
+        <button class="not-found__cta" @onclick="GoHome" aria-label="Voltar para página inicial">
+            <span class="not-found__arrow" aria-hidden="true">←</span>
+            Voltar para o início
+        </button>
+    </div>
+</div>
+
+@code {
+    private void GoHome() => Nav.NavigateTo("/Animes/");
+}
